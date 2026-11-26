@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+
+# Outputs & local cache
+output_clips/
+*.mp3
+*.wav
+*.flac
+*.ogg
+.freevoice/
+
+# OS & Editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

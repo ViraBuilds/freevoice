@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "freevoice"
+version = "0.1.0"
+description = "Free, unlimited open-source AI voiceover studio, CLI, and OpenAI-compatible TTS API powered by Kokoro-82M and Qwen3-TTS 0.6B."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+    "python-multipart>=0.0.9",
+    "pydantic>=2.7.0",
+    "numpy>=1.26.0",
+    "soundfile>=0.12.1",
+    "scipy>=1.11.0",
+    "pydub>=0.25.1",
+    "torch>=2.2.0",
+    "kokoro>=0.9.4",
+    "qwen-tts>=0.1.0",
+    "huggingface-hub>=0.24.0",
+]
+
+[project.scripts]
+freevoice = "freevoice.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["freevoice*"]
+
+[tool.setuptools.package-data]
+freevoice = ["static/*"]
