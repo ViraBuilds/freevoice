@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FreeVoice — Unlimited Local AI Voice Studio</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo-dot"></span>
+      <h1>FreeVoice</h1>
+      <span class="badge">Unlimited · Local · Commercial OK</span>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="studio">Voice Studio</button>
+      <button class="tab" data-tab="clone">3s Voice Cloning</button>
+      <button class="tab" data-tab="batch">Batch Script</button>
+      <button class="tab" data-tab="api">OpenAI API</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- TAB 1: VOICE STUDIO -->
+    <section id="tab-studio" class="panel active">
+      <div class="grid-two">
+        <div class="card">
+          <label for="tts-text" class="label">Script Text</label>
+          <textarea
+            id="tts-text"
+            rows="9"
+            placeholder="Paste or type your voiceover script here... No character cap, no credits, no sign-up."
+          >Welcome to FreeVoice. Generate unlimited voiceovers locally with fifty-four voices or clone any voice from a three-second audio sample.</textarea>
+
+          <div class="meta-row">
+            <span id="char-count">0 characters</span>
+            <button id="clear-text-btn" type="button" class="btn-ghost">Clear</button>
+          </div>
+        </div>
+
+        <div class="card controls-card">
+          <div>
+            <label for="lang-filter" class="label">Filter by Language / Engine</label>
+            <select id="lang-filter">
+              <option value="all">All Languages & Cloned Voices</option>
+              <option value="clone">Cloned Voices (Qwen3-TTS 0.6B)</option>
+              <option value="American English">American English (20)</option>
+              <option value="British English">British English (8)</option>
+              <option value="Spanish">Spanish (3)</option>
+              <option value="French">French (1)</option>
+              <option value="Hindi">Hindi (4)</option>
+              <option value="Italian">Italian (2)</option>
+              <option value="Japanese">Japanese (5)</option>
+              <option value="Portuguese">Portuguese (3)</option>
+              <option value="Chinese">Mandarin Chinese (8)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="voice-select" class="label">Voice</label>
+            <div class="voice-picker-row">
+              <select id="voice-select"></select>
+              <button id="preview-voice-btn" type="button" class="btn-secondary" title="Hear a short sample of this voice">
+                Preview
+              </button>
+            </div>
+            <p id="voice-desc" class="hint"></p>
+          </div>
+
+          <div class="grid-two-compact">
+            <div>
+              <label for="speed-range" class="label">Speed: <span id="speed-val">1.00x</span></label>
+              <input id="speed-range" type="range" min="0.5" max="2.0" step="0.05" value="1.0" />
+            </div>
+            <div>
+              <label for="format-select" class="label">Format</label>
+              <select id="format-select">
+                <option value="mp3" selected>MP3 (192 kbps)</option>
+                <option value="wav">WAV (PCM 16-bit)</option>
+                <option value="ogg">OGG</option>
+                <option value="flac">FLAC</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button id="generate-btn" type="button" class="btn-primary">Generate Voiceover</button>
+            <a id="download-link" class="btn-secondary disabled" download="freevoice.mp3">Download MP3</a>
+          </div>
+
+          <audio id="audio-player" controls class="audio-player"></audio>
+          <div id="studio-status" class="status"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: 3-SECOND VOICE CLONING -->
+    <section id="tab-clone" class="panel">
+      <div class="grid-two">
+        <form id="clone-form" class="card controls-card">
+          <h2>Clone a Voice from a 3-Second Sample</h2>
+          <p class="hint">
+            Powered by <strong>Qwen3-TTS 0.6B (Apache 2.0)</strong>. Upload 3–10 seconds of clean single-speaker audio with no background music.
+          </p>
+
+          <div>
+            <label for="clone-name" class="label">Voice Name</label>
+            <input id="clone-name" type="text" required placeholder="e.g., Narrator Alex" />
+          </div>
+
+          <div>
+            <label for="clone-file" class="label">Reference Audio (WAV, MP3, OGG, FLAC)</label>
+            <input id="clone-file" type="file" accept="audio/*" required />
+          </div>
+
+          <div>
+            <label for="clone-lang" class="label">Sample Language</label>
+            <select id="clone-lang">
+              <option value="English" selected>English</option>
+              <option value="Chinese">Chinese</option>
+              <option value="Japanese">Japanese</option>
+              <option value="Korean">Korean</option>
+              <option value="German">German</option>
+              <option value="French">French</option>
+              <option value="Russian">Russian</option>
+              <option value="Portuguese">Portuguese</option>
+              <option value="Spanish">Spanish</option>
+              <option value="Italian">Italian</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="clone-ref-text" class="label">Reference Transcript (Strongly Recommended)</label>
+            <textarea
+              id="clone-ref-text"
+              rows="3"
+              placeholder="Exact words spoken in your 3-second audio clip. Improves pronunciation and timbre accuracy."
+            ></textarea>
+          </div>
+
+          <button type="submit" id="clone-submit-btn" class="btn-primary">Save Cloned Voice</button>
+          <div id="clone-status" class="status"></div>
+        </form>
+
+        <div class="card">
+          <h2>Saved Cloned Voices</h2>
+          <p class="hint">Saved locally under <code>~/.freevoice/clones</code>. Select any saved clone in the Voice Studio or pass <code>clone:&lt;id&gt;</code> to the CLI/API.</p>
+          <div id="cloned-voices-list" class="clone-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: BATCH SCRIPT -->
+    <section id="tab-batch" class="panel">
+      <div class="card controls-card">
+        <h2>Batch Script to Multiple MP3s (ZIP)</h2>
+        <p class="hint">
+          Enter one line per audio clip, or paste a JSON array like <code>[{"filename": "intro.mp3", "voice": "af_heart", "text": "Hello"}]</code>.
+        </p>
+
+        <textarea
+          id="batch-input"
+          rows="10"
+          placeholder="Line one becomes line_001.mp3&#10;Line two becomes line_002.mp3&#10;Line three becomes line_003.mp3"
+        >Welcome to episode one of our podcast.
+In this segment, we explore local open-source speech models.
+Thanks for listening, and see you next time.</textarea>
+
+        <div class="grid-two-compact">
+          <div>
+            <label for="batch-voice" class="label">Default Voice</label>
+            <select id="batch-voice"></select>
+          </div>
+          <div>
+            <label for="batch-format" class="label">Output Format</label>
+            <select id="batch-format">
+              <option value="mp3" selected>MP3 (ZIP archive)</option>
+              <option value="wav">WAV (ZIP archive)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button id="batch-run-btn" type="button" class="btn-primary">Generate Batch ZIP</button>
+        </div>
+        <div id="batch-status" class="status"></div>
+      </div>
+    </section>
+
+    <!-- TAB 4: OPENAI API -->
+    <section id="tab-api" class="panel">
+      <div class="card controls-card">
+        <h2>Drop-in OpenAI SDK Compatibility</h2>
+        <p class="hint">
+          Point any OpenAI TTS client to <code id="api-base-url">http://127.0.0.1:8000/v1</code>. No API key validation is enforced.
+        </p>
+        <pre class="code-block"><code>from openai import OpenAI
+
+client = OpenAI(
+    base_url="http://127.0.0.1:8000/v1",
+    api_key="local-freevoice",
+)
+
+with client.audio.speech.with_streaming_response.create(
+    model="kokoro-82m",
+    voice="af_heart",
+    input="Hello from FreeVoice!",
+    response_format="mp3",
+) as response:
+    response.stream_to_file("output.mp3")</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>FreeVoice (MIT) · Kokoro-82M (Apache 2.0) · Qwen3-TTS 0.6B (Apache 2.0)</span>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
