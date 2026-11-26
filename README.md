@@ -2,6 +2,10 @@
 
 **Free, unlimited, self-hosted AI voiceover studio, CLI, and OpenAI-compatible TTS API.**
 
+![FreeVoice web studio — UI preview (illustration)](docs/screenshot-studio.png)
+
+*Web studio UI preview (illustration of the interface, not a live screenshot).*
+
 FreeVoice gives you local text-to-speech synthesis and 3-second zero-shot voice cloning with no account, no usage cap, and commercial use permitted under open-source licenses.
 
 ---
