@@ -1,0 +1,20 @@
+[
+  {
+    "filename": "01_intro.mp3",
+    "voice": "af_heart",
+    "speed": 1.0,
+    "text": "Welcome to our product walkthrough powered entirely by local text-to-speech."
+  },
+  {
+    "filename": "02_narrator_uk.mp3",
+    "voice": "bm_george",
+    "speed": 0.95,
+    "text": "Every clip in this batch can use a different Kokoro voice or a three-second cloned voice."
+  },
+  {
+    "filename": "03_outro.mp3",
+    "voice": "af_bella",
+    "speed": 1.05,
+    "text": "Download the source code and run it on your own machine with zero monthly fees."
+  }
+]

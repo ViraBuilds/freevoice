@@ -1,0 +1,4 @@
+# Lines starting with # are ignored in batch text mode.
+Welcome to FreeVoice, an unlimited open-source voiceover studio.
+No monthly credit caps, no subscriptions, and commercial use is allowed.
+You can generate dozens of audio clips in a single command.
